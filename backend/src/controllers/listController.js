@@ -24,7 +24,6 @@ module.exports = {
     return response.json(lists);
   },
 
-  /* Store data at the database on MongoDb */
   async store(request, response) {
     const { id, label, owner } = request.body;
 

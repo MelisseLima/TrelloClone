@@ -8,7 +8,7 @@ const customerComplete = {
   title: 'General Manager',
 };
 
-const customerComplete_2 = {
+const customerComplete2 = {
   first_name: 'Julio ',
   last_name: 'Woods',
   email: 'awoodsb5@bloglines.com',
@@ -18,4 +18,4 @@ const customerComplete_2 = {
   title: 'General Manager',
 };
 
-module.exports=[customerComplete, customerComplete_2]
+module.exports = [customerComplete, customerComplete_2];

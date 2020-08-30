@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-const Joi = require('joi');
 const connection = require('../database/connection');
 const todoSchema = require('../models/todo');
 
@@ -18,15 +17,10 @@ module.exports = {
     const [count] = await connection('todo').where('list_id', '=', list_id).count();
 
     const todos = await connection('todo')
-      .join('todo', 'todo.list_id', '=', list_id)
+      .where('list_id', '=', list_id)
       .limit(5)
       .offset((page - 1) * 5)
-      .select([
-        'todo.id',
-        'todo.label',
-        'todo.description',
-        'todo.status',
-      ]);
+      .select();
 
     response.header('X-Total-Count', count['count(*)']);
 
@@ -35,27 +29,35 @@ module.exports = {
 
   /* Store data at the database on MongoDb */
   async store(request, response) {
-    const { body } = request;
+    const {
+      id, title, description, list_id,
+    } = request.body;
 
-    const result = Joi.validade(body, todoSchema);
+    const result = todoSchema.validate({
+      id, title, description, list_id,
+    });
     const { error } = result;
     const valid = error == null;
     if (valid) {
-      const createPost = await connection('todo').insert({ body });
-      return response.json({ message: 'List Created', data: createPost });
+      const createPost = await connection('todo').insert({
+        id, title, description, list_id, status: false,
+      });
+      return response.json({ message: 'Todo Created', data: createPost });
     }
     /*
       If havent returned return status 422
     */
     return response.status(422).json({
       message: 'Invalid Request',
-      data: body,
+      data: {
+        id, title, description, list_id,
+      },
     });
   },
   async delete(request, response) {
     const {
       id,
-    } = request.params;
+    } = request.body;
 
     const todo = await connection('todo')
       .where('id', id)

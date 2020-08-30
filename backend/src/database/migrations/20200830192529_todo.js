@@ -1,7 +1,7 @@
 exports.up = function (knex) {
   return knex.schema.createTable('todo', (table) => {
     table.string('id').primary();
-    table.string('label').notNullable();
+    table.string('title').notNullable();
     table.string('description').notNullable();
     table.boolean('status').notNullable();
     table.string('list_id').unsigned();

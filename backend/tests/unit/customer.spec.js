@@ -1,9 +1,8 @@
 /* eslint-disable no-return-await */
 /* eslint-disable no-undef */
-const mongoose = require('mongoose');
 const dbHandler = require('../dbhandler');
 const customer = require('../../src/models/customer');
-const [customerComplete, customerComplete_2] = require('./../customers');
+const [customerComplete, customerComplete2] = require('../data_test');
 
 /**
  * Connect to a new in-memory database before running any tests.
