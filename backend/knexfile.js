@@ -2,12 +2,9 @@
 
 module.exports = {
   development: {
-    client: "pg",
+    client: "sqlite3",
     connection: {
-      host: "localhost",
-      username: "mel",
-      password: "amor",
-      database: "my_db",
+      filename: "./mydb.sqlite",
     },
     migrations: {
       directory: "./src/database/migrations",
@@ -16,12 +13,9 @@ module.exports = {
   },
 
   test: {
-    client: "pg",
+    client: "sqlite3",
     connection: {
-      host: "localhost",
-      username: "postgres",
-      password: "amor",
-      database: "my_db",
+      filename: "./mydb.sqlite",
     },
     migrations: {
       directory: "./src/database/migrations",
@@ -37,7 +31,7 @@ module.exports = {
       max: 10,
     },
     migrations: {
-      tableName: "knex_migrations",
+      directory: "./src/database/migrations",
     },
   },
 

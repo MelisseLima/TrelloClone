@@ -4,10 +4,10 @@ exports.up = function (knex) {
     table.string("description").notNullable();
     table.boolean("index").notNullable();
     table.string("list_id").unsigned();
-    table.foreign("list_id").references("lists.id").unsigned();
+    table.foreign("list_id").references("list.id");
   });
 };
 
 exports.down = function (knex) {
-  return knex.schema.dropTable("todo");
+  return knex.schema.dropTable("task");
 };

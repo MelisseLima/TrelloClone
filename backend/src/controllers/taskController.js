@@ -4,17 +4,17 @@ const taskSchema = require("../models/task");
 
 module.exports = {
   /*
-    Retrive all todos from list by id page by page
+    Retrive all tasks from list by id page by page
   */
 
   async index(request, response) {
     const { page = 1, list_id } = request.query;
 
-    const [count] = await connection("todo")
+    const [count] = await connection("task")
       .where("list_id", "=", list_id)
       .count();
 
-    const todos = await connection("todo")
+    const tasks = await connection("task")
       .where("list_id", "=", list_id)
       .limit(5)
       .offset((page - 1) * 5)
@@ -22,30 +22,29 @@ module.exports = {
 
     response.header("X-Total-Count", count["count(*)"]);
 
-    return response.json(todos);
+    return response.json(tasks);
   },
 
   /* Store data at the database on MongoDb */
   async store(request, response) {
-    const { id, title, description, list_id } = request.body;
+    const { id, title, description, list_id, index } = request.body;
 
-    const result = todoSchema.validate({
+    const result = taskSchema.validate({
       id,
-      title,
       description,
       list_id,
+      index,
     });
     const { error } = result;
     const valid = error == null;
     if (valid) {
-      const createPost = await connection("todo").insert({
+      const createPost = await connection("task").insert({
         id,
-        title,
         description,
         list_id,
-        status: false,
+        index,
       });
-      return response.json({ message: "Todo Created", data: createPost });
+      return response.json({ message: "task Created", data: createPost });
     }
     /*
       If havent returned return status 422
@@ -54,23 +53,23 @@ module.exports = {
       message: "Invalid Request",
       data: {
         id,
-        title,
         description,
         list_id,
+        index,
       },
     });
   },
   async delete(request, response) {
     const { id } = request.body;
 
-    const todo = await connection("todo").where("id", id).first();
+    const task = await connection("task").where("id", id).first();
 
-    if (!todo) {
+    if (!task) {
       return response.status(404).json({
         error: "Was not found that list.",
       });
     }
-    await connection("todo").where("id", id).delete();
+    await connection("task").where("id", id).delete();
     return response.status(204).send();
   },
 };
