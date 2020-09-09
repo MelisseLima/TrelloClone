@@ -3,9 +3,12 @@
 module.exports = {
 
   development: {
-    client: 'sqlite3',
+    client: 'pg',
     connection: {
-      filename: './src/database/db.sqlite',
+      host: 'localhost',
+      username: 'mel',
+      password: 'amor',
+      database: 'my_db',
     },
     migrations: {
       directory: './src/database/migrations',
@@ -14,9 +17,12 @@ module.exports = {
   },
 
   test: {
-    client: 'sqlite3',
+    client: 'pg',
     connection: {
-      filename: './src/database/test.sqlite',
+      host: 'localhost',
+      username: 'postgres',
+      password: 'amor',
+      database: 'my_db',
     },
     migrations: {
       directory: './src/database/migrations',
@@ -25,11 +31,11 @@ module.exports = {
   },
 
   staging: {
-    client: 'sqlite3',
+    client: 'pg',
     connection: {
       database: 'my_db',
-      user: 'username',
-      password: 'password',
+      user: 'postgres',
+      password: '',
     },
     pool: {
       min: 2,
@@ -41,11 +47,11 @@ module.exports = {
   },
 
   production: {
-    client: 'sqlite3',
+    client: 'pg',
     connection: {
       database: 'my_db',
-      user: 'username',
-      password: 'password',
+      user: 'postgres',
+      password: '',
     },
     pool: {
       min: 2,
@@ -55,6 +61,5 @@ module.exports = {
       tableName: 'knex_migrations',
     },
   },
-
 
 };
