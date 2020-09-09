@@ -1,6 +1,6 @@
-const Joi = require('joi');
+const Joi = require("joi");
 
-const todoSchema = Joi.object().keys({
+const taskSchema = Joi.object().keys({
   id: Joi.string(),
   title: Joi.string(),
   description: Joi.string(),
@@ -8,4 +8,4 @@ const todoSchema = Joi.object().keys({
   index: Joi.string(),
 });
 
-module.exports = todoSchema;
+module.exports = taskSchema;
