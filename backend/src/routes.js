@@ -7,10 +7,12 @@ const routes = Router();
 // Search Count By City
 routes.get("/", listController.index);
 routes.post("/list", listController.store);
-routes.delete("/list", listController.delete);
+routes.post("/editList", listController.editList);
+routes.post("/lists", listController.removeList);
 
 routes.get("/task", taskController.index);
 routes.post("/task", taskController.store);
-routes.delete("/task", taskController.delete);
+routes.post("/editTask", taskController.editTask);
+routes.post("/tasks", taskController.removeTask);
 
 module.exports = routes;

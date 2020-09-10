@@ -7,21 +7,27 @@ import {
   Button,
   TextField,
 } from "@material-ui/core/";
-import { Edit, Delete } from "@material-ui/icons";
+import { Edit, Delete, Add } from "@material-ui/icons";
 import TaskCard from "../TaskCard/index";
+import axios from "axios";
 
 import "./styles.css";
 
 function CardList({ label, id }) {
   const [tasks, setTasks] = useState([]);
   const [description, setDescription] = useState("");
+  const [newLabel, setLabel] = useState(label);
   const [newInsertion, setNewInsertion] = useState(false);
+  const [showInput, setShowInput] = useState(false);
+  const [showEditLabel, setShowEditLabel] = useState(false);
+  const [stillExists, setStillExist] = useState(true);
 
   useEffect(() => {
     async function loadTasks() {
       const response = await api.get(`/task`, { params: { list_id: id } });
       setTasks(response.data);
       setDescription("");
+      setShowInput(false);
       setNewInsertion(false);
     }
 
@@ -40,76 +46,131 @@ function CardList({ label, id }) {
     }
   };
 
+  const handleKeyDownLabel = async (e) => {
+    try {
+      const data = { id, label: newLabel };
+      if (e.key === "Enter") {
+        setShowEditLabel(false);
+        const response = await api.post("editList", data);
+        setShowEditLabel(false);
+      }
+    } catch (err) {
+      setLabel(label);
+      alert(err);
+    }
+  };
+
   async function handleDelete() {
     try {
-      const response = await api.get("/remove/list", {
-        params: { id: id },
-      });
+      const data = { id };
+      const response = await api.post("lists", data);
+      setStillExist(false);
     } catch (err) {
-      alert(err.message);
+      alert("Error deleting list. Please, try again...");
     }
   }
 
   return (
-    <Card
-      className="list"
-      style={{
-        backgroundColor: "#dfe6e9",
-        borderRadius: "3px",
-        marginLeft: "5px",
-        marginRight: "5px",
-        marginTop: "10px",
-        textAlign: "left",
-      }}
-    >
-      <CardContent style={{ display: "flex" }}>
-        <Typography
-          style={{ width: "50%" }}
-          variant="h6"
-          component="h3"
-          className="title"
-        >
-          {label}
-        </Typography>
-        <div align="right" style={{ width: "50%", fontSize: "10px" }}>
-          <Button aria-controls="simple-menu" aria-haspopup="true">
-            <Edit aling="right" />
-          </Button>
-          <Button
-            aria-controls="simple-menu"
-            onClick={(e) => handleDelete()}
-            aria-haspopup="true"
-          >
-            <Delete aling="right" />
-          </Button>
-        </div>
-      </CardContent>
-
-      {tasks.map((task) => (
-        <TaskCard description={task.description} />
-      ))}
-
-      <div>
-        <TextField
-          label="Tarefa"
-          variant="outlined"
-          onChange={(e) => setDescription(e.target.value)}
-          onKeyDown={handleKeyDown}
-          value={description}
-          multiline
+    <div>
+      {stillExists && (
+        <Card
+          key={id}
+          className="list"
           style={{
-            margin: "10px",
-            width: "-webkit-fill-available",
-            color: "#fff",
+            backgroundColor: "#dfe6e9",
+            borderRadius: "3px",
+            marginLeft: "5px",
+            marginRight: "5px",
+            marginTop: "10px",
+            textAlign: "left",
           }}
-        />
-        <a align="center" style={{ display: "flex", margin: "5px" }}>
-          <Typography style={{ fontSize: "14px", margin: "5px" }}>
-            Pressione Enter para criar novo cartão.
-          </Typography>
-        </a>
-      </div>
-    </Card>
+        >
+          <CardContent style={{ display: "flex" }}>
+            {!showEditLabel && (
+              <Typography
+                style={{ width: "50%" }}
+                variant="h6"
+                component="h3"
+                className="title"
+              >
+                {newLabel}
+              </Typography>
+            )}
+            {showEditLabel && (
+              <TextField
+                label="Título"
+                style={{ height: "1em" }}
+                onChange={(e) => setLabel(e.target.value)}
+                onKeyDown={handleKeyDownLabel}
+                value={newLabel}
+                style={{
+                  margin: "10px",
+                  width: "-webkit-fill-available",
+                  color: "#fff",
+                }}
+              />
+            )}
+            <div align="right" style={{ width: "50%", fontSize: "10px" }}>
+              <Button
+                aria-controls="simple-menu"
+                onClick={() => setShowEditLabel(true)}
+                aria-haspopup="true"
+              >
+                <Edit aling="right" />
+              </Button>
+              <Button
+                aria-controls="simple-menu"
+                onClick={(e) => handleDelete()}
+                aria-haspopup="true"
+              >
+                <Delete aling="right" />
+              </Button>
+            </div>
+          </CardContent>
+
+          {tasks.map((task) => (
+            <TaskCard
+              key={task.id}
+              id={task.id}
+              description={task.description}
+            />
+          ))}
+
+          {showInput && (
+            <div>
+              <TextField
+                label="Tarefa"
+                variant="outlined"
+                style={{ height: "2em" }}
+                onChange={(e) => setDescription(e.target.value)}
+                onKeyDown={handleKeyDown}
+                value={description}
+                multiline
+                style={{
+                  margin: "10px",
+                  width: "-webkit-fill-available",
+                  color: "#fff",
+                }}
+              />
+              <a align="center" style={{ display: "flex", margin: "5px" }}>
+                <Typography style={{ fontSize: "14px", margin: "5px" }}>
+                  Pressione Enter para criar novo cartão.
+                </Typography>
+              </a>
+            </div>
+          )}
+          {!showInput && (
+            <Button
+              onClick={() => setShowInput(true)}
+              style={{ margin: "10px" }}
+            >
+              <Add />
+              Adicionar Tarefa
+            </Button>
+          )}
+        </Card>
+      )}
+    </div>
   );
 }
 

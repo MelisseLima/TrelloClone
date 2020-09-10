@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import api from "../../services/api";
 import { CardList } from "../CardList/index";
 
-import { Card, Typography, TextField } from "@material-ui/core/";
+import { Card, Typography, TextField, Button } from "@material-ui/core/";
+import { Add } from "@material-ui/icons/";
 
 import "./style.css";
 
@@ -10,6 +11,8 @@ function Board() {
   const [lists, setLists] = useState([]);
   const [label, setLabel] = useState("");
   const [newInsertion, setNewInsertion] = useState(false);
+  const [newInsertionLabel, setNewInsertionLabel] = useState("");
+  const [showInput, setShowInput] = useState(false);
 
   useEffect(() => {
     async function loadLists() {
@@ -24,7 +27,7 @@ function Board() {
 
   const handleKeyDown = async (e) => {
     if (e.key === "Enter") {
-      const data = { label };
+      const data = { label: newInsertionLabel };
 
       try {
         const response = await api.post("list", data);
@@ -32,6 +35,9 @@ function Board() {
       } catch (err) {
         alert("Error ao criar lista, tente novamente.");
       }
+
+      setNewInsertionLabel("");
+      setShowInput(false);
     }
   };
 
@@ -54,23 +60,32 @@ function Board() {
           textAlign: "left",
         }}
       >
-        <input
-          id="outlined-basic"
-          label="Título"
-          variant="Outlined"
-          onChange={(e) => setLabel(e.target.value)}
-          onKeyDown={handleKeyDown}
-          style={{
-            margin: "10px",
-            width: "-webkit-fill-available",
-            color: "#fff",
-          }}
-        />
-        <a align="center" style={{ display: "flex", margin: "5px" }}>
-          <Typography style={{ fontSize: "14px", margin: "5px" }}>
-            Pressione Enter para criar novo cartão.
-          </Typography>
-        </a>
+        {!showInput && (
+          <div>
+            <Button
+              style={{ width: "100%" }}
+              onClick={() => setShowInput(true)}
+            >
+              <Add />
+              Adicionar Cartão
+            </Button>
+          </div>
+        )}
+        {showInput && (
+          <div style={{ margin: "15px", width: "auto" }}>
+            <TextField
+              label="Título"
+              variant="outlined"
+              onChange={(e) => setNewInsertionLabel(e.target.value)}
+              value={newInsertionLabel}
+              style={{ width: "100%" }}
+              onKeyDown={handleKeyDown}
+            />
+            <Typography style={{ fontSize: "12px", width: "100%" }}>
+              Pressione Enter para adicionar.
+            </Typography>
+          </div>
+        )}
       </Card>
     </div>
   );

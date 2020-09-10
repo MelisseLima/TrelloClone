@@ -8,61 +8,74 @@ module.exports = {
   */
 
   async index(request, response) {
-    const [count] = await connection("list").count();
+    try {
+      const lists = await connection("list").select(["list.*"]);
 
-    const lists = await connection("list").select(["list.*"]);
-
-    response.header("X-Total-Count", count["count(*)"]);
-
-    return response.json(lists);
+      return response.json(lists);
+    } catch (error) {}
   },
 
-  async store(request, response) {
-    const { label } = request.body;
-    let id = generatedID(5).toString();
-    const [count] = await connection("list").count();
-    let index = count.count;
+  async editList(request, response) {
+    try {
+      const { id, label } = request.body;
 
-    const result = listSchema.validate({ id, label, index });
-    const { error } = result;
-    const valid = error == null;
-    if (valid) {
-      try {
-        const createPost = await connection("list").insert({
-          id,
-          label,
-          index,
-        });
-        return response.json({ message: "List Created", data: createPost });
-      } catch (e) {
-        throw e.message;
-      }
-    }
-    /*
-      If havent returned return status 422
-    */
-    return response.status(422).json({
-      message: "Invalid Request",
-      data: {
-        id,
-        label,
-        index,
-      },
-    });
+      const list = await connection("list")
+        .where("id", id)
+        .select("*")
+        .first()
+        .update("label", label);
+
+      return response.json({ list });
+    } catch (e) {}
   },
-  async delete(request, response) {
+
+  async removeList(request, response) {
     try {
       const { id } = request.body;
 
-      const list = await connection("list").where("id", id).first();
+      const lists = await connection("list")
+        .where("id", id)
+        .select("*")
+        .first()
+        .del();
 
-      if (!list) {
-        return response.status(404).json({
-          error: "Was not found that list.",
-        });
+      return response.status(200).send();
+    } catch (e) {}
+  },
+
+  async store(request, response) {
+    try {
+      const { label } = request.body;
+      let id = generatedID(5).toString();
+      const [count] = await connection("list").count();
+      let index = count.count;
+
+      const result = listSchema.validate({ id, label, index });
+      const { error } = result;
+      const valid = error == null;
+      if (valid) {
+        try {
+          const createPost = await connection("list").insert({
+            id,
+            label,
+            index,
+          });
+          return response.json({ message: "List Created", data: createPost });
+        } catch (e) {
+          throw e.message;
+        }
       }
-      await connection("list").where("id", id).delete();
-      return response.status(204).send();
-    } catch (err) {}
+      /*
+        If havent returned return status 422
+      */
+      return response.status(422).json({
+        message: "Invalid Request",
+        data: {
+          id,
+          label,
+          index,
+        },
+      });
+    } catch (e) {}
   },
 };
