@@ -20,8 +20,8 @@ function CardList({ label, id }) {
   useEffect(() => {
     async function loadTasks() {
       const response = await api.get(`/task`, { params: { list_id: id } });
-
       setTasks(response.data);
+      setDescription("");
       setNewInsertion(false);
     }
 
@@ -29,21 +29,22 @@ function CardList({ label, id }) {
   }, [newInsertion]);
 
   const handleKeyDown = async (e) => {
-    if (e.key === "Enter") {
-      const data = { description, list_id: id };
-
-      try {
+    try {
+      if (e.key === "Enter") {
+        const data = { description, list_id: id };
         const response = await api.post("task", data);
         setNewInsertion(true);
-      } catch (err) {
-        alert("Error ao criar tarefa, tente novamente.");
       }
+    } catch (err) {
+      alert("Error ao criar tarefa, tente novamente.");
     }
   };
 
   async function handleDelete() {
     try {
-      const response = await api.delete("list", { body: { id: id } });
+      const response = await api.get("/remove/list", {
+        params: { id: id },
+      });
     } catch (err) {
       alert(err.message);
     }
@@ -90,11 +91,12 @@ function CardList({ label, id }) {
 
       <div>
         <TextField
-          id="filled-basic"
           label="Tarefa"
-          variant="filled"
+          variant="outlined"
           onChange={(e) => setDescription(e.target.value)}
           onKeyDown={handleKeyDown}
+          value={description}
+          multiline
           style={{
             margin: "10px",
             width: "-webkit-fill-available",

@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import ListsCard from "./components/ListsCard";
+import Board from "./components/Board";
 import Header from "./components/Header";
 
 function App() {
@@ -8,7 +8,7 @@ function App() {
     <div className="App" style={{ height: "100%" }}>
       <Header />
       <main style={{ height: "100%" }}>
-        <ListsCard styles={{ width: "100%" }} />
+        <Board styles={{ width: "100%" }} />
       </main>
     </div>
   );

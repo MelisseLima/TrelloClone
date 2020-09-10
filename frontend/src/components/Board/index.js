@@ -6,7 +6,7 @@ import { Card, Typography, TextField } from "@material-ui/core/";
 
 import "./style.css";
 
-function ListsCard() {
+function Board() {
   const [lists, setLists] = useState([]);
   const [label, setLabel] = useState("");
   const [newInsertion, setNewInsertion] = useState(false);
@@ -54,10 +54,10 @@ function ListsCard() {
           textAlign: "left",
         }}
       >
-        <TextField
-          id="filled-basic"
+        <input
+          id="outlined-basic"
           label="Título"
-          variant="filled"
+          variant="Outlined"
           onChange={(e) => setLabel(e.target.value)}
           onKeyDown={handleKeyDown}
           style={{
@@ -76,4 +76,4 @@ function ListsCard() {
   );
 }
 
-export default ListsCard;
+export default Board;

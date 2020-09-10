@@ -51,16 +51,18 @@ module.exports = {
     });
   },
   async delete(request, response) {
-    const { id } = request.body;
+    try {
+      const { id } = request.body;
 
-    const list = await connection("list").where("id", id).first();
+      const list = await connection("list").where("id", id).first();
 
-    if (!list) {
-      return response.status(404).json({
-        error: "Was not found that list.",
-      });
-    }
-    await connection("list").where("id", id).delete();
-    return response.status(204).send();
+      if (!list) {
+        return response.status(404).json({
+          error: "Was not found that list.",
+        });
+      }
+      await connection("list").where("id", id).delete();
+      return response.status(204).send();
+    } catch (err) {}
   },
 };
