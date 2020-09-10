@@ -80,13 +80,13 @@ module.exports = {
     try {
       const { id, description } = request.body;
 
-      const tasks = await connection("list")
+      const task = await connection("task")
         .where("id", id)
         .select("*")
         .first()
         .update("description", description);
 
-      return response.json({ tasks });
+      return response.json({ task });
     } catch (e) {}
   },
 };

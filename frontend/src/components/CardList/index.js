@@ -50,7 +50,6 @@ function CardList({ label, id }) {
     try {
       const data = { id, label: newLabel };
       if (e.key === "Enter") {
-        setShowEditLabel(false);
         const response = await api.post("editList", data);
         setShowEditLabel(false);
       }

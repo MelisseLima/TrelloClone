@@ -14,7 +14,7 @@ import api from "./../../services/api";
 function TaskCard({ description, id }) {
   const [stillExists, setStillExist] = useState(true);
   const [newDescription, setNewDescription] = useState(description);
-  const [showInputDescription, setShowInputDescription] = useState(false);
+  const [showInputDescription, setShowInputDescription] = useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -38,9 +38,10 @@ function TaskCard({ description, id }) {
   async function handlePressDownEdit(e) {
     try {
       if (e.key === "Enter") {
-        const data = { id, description };
-        const response = await api.post("tasks", data);
-        setStillExist(false);
+        const data = { id, description: newDescription };
+        const response = await api.post("editTask", data);
+        setShowInputDescription(true);
+        handleClose();
       }
     } catch (err) {
       alert(err);
@@ -59,7 +60,7 @@ function TaskCard({ description, id }) {
             display: "flex",
           }}
         >
-          {!showInputDescription && (
+          {showInputDescription && (
             <div
               style={{
                 display: "flex",
@@ -73,7 +74,7 @@ function TaskCard({ description, id }) {
                   width: "90%",
                 }}
               >
-                {description}
+                {newDescription}
               </Typography>
 
               <Button
@@ -91,7 +92,7 @@ function TaskCard({ description, id }) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={() => setNewDescription(false)}>
+                <MenuItem onClick={() => setShowInputDescription(false)}>
                   Editar
                 </MenuItem>
                 <MenuItem onClick={() => handleDelete()}>Deletar</MenuItem>
@@ -99,7 +100,7 @@ function TaskCard({ description, id }) {
             </div>
           )}
 
-          {showInputDescription && (
+          {!showInputDescription && (
             <TextField
               label="Descrição"
               style={{ height: "1em" }}
