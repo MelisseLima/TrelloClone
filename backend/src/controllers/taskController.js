@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 const connection = require("../database/connection");
 const taskSchema = require("../models/task");
+const generatedID = require("../utils/generatedID");
 
 module.exports = {
   /*
@@ -8,26 +9,23 @@ module.exports = {
   */
 
   async index(request, response) {
-    const { page = 1, list_id } = request.query;
-
-    const [count] = await connection("task")
-      .where("list_id", "=", list_id)
-      .count();
+    const { list_id } = request.query;
 
     const tasks = await connection("task")
       .where("list_id", "=", list_id)
-      .limit(5)
-      .offset((page - 1) * 5)
       .select();
-
-    response.header("X-Total-Count", count["count(*)"]);
 
     return response.json(tasks);
   },
 
   /* Store data at the database on MongoDb */
   async store(request, response) {
-    const { id, title, description, list_id, index } = request.body;
+    const { description, list_id } = request.body;
+    let id = generatedID(5).toString();
+    const [count] = await connection("task")
+      .where("list_id", "=", list_id)
+      .count();
+    let index = count.count;
 
     const result = taskSchema.validate({
       id,

@@ -1,5 +1,6 @@
 const connection = require("../database/connection");
 const listSchema = require("../models/list");
+const generatedID = require("../utils/generatedID");
 
 module.exports = {
   /*
@@ -7,8 +8,6 @@ module.exports = {
   */
 
   async index(request, response) {
-    const { page = 1 } = request.query;
-
     const [count] = await connection("list").count();
 
     const lists = await connection("list").select(["list.*"]);
@@ -19,7 +18,10 @@ module.exports = {
   },
 
   async store(request, response) {
-    const { id, label, index } = request.body;
+    const { label } = request.body;
+    let id = generatedID(5).toString();
+    const [count] = await connection("list").count();
+    let index = count.count;
 
     const result = listSchema.validate({ id, label, index });
     const { error } = result;
