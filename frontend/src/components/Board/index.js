@@ -9,7 +9,6 @@ import "./style.css";
 
 function Board() {
   const [lists, setLists] = useState([]);
-  const [label, setLabel] = useState("");
   const [newInsertion, setNewInsertion] = useState(false);
   const [newInsertionLabel, setNewInsertionLabel] = useState("");
   const [showInput, setShowInput] = useState(false);
@@ -30,7 +29,7 @@ function Board() {
       const data = { label: newInsertionLabel };
 
       try {
-        const response = await api.post("list", data);
+        await api.post("list", data);
         setNewInsertion(true);
       } catch (err) {
         alert("Error ao criar lista, tente novamente.");

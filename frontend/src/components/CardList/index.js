@@ -9,7 +9,6 @@ import {
 } from "@material-ui/core/";
 import { Edit, Delete, Add } from "@material-ui/icons";
 import TaskCard from "../TaskCard/index";
-import axios from "axios";
 
 import "./styles.css";
 
@@ -38,7 +37,7 @@ function CardList({ label, id }) {
     try {
       if (e.key === "Enter") {
         const data = { description, list_id: id };
-        const response = await api.post("task", data);
+        await api.post("task", data);
         setNewInsertion(true);
       }
     } catch (err) {
@@ -62,7 +61,7 @@ function CardList({ label, id }) {
   async function handleDelete() {
     try {
       const data = { id };
-      const response = await api.post("lists", data);
+      await api.post("lists", data);
       setStillExist(false);
     } catch (err) {
       alert("Error deleting list. Please, try again...");

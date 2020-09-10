@@ -28,7 +28,7 @@ function TaskCard({ description, id }) {
   async function handleDelete() {
     try {
       const data = { id };
-      const response = await api.post("tasks", data);
+      await api.post("tasks", data);
       setStillExist(false);
     } catch (err) {
       alert("Error ao deletar por favor tente novamente.");
@@ -39,7 +39,7 @@ function TaskCard({ description, id }) {
     try {
       if (e.key === "Enter") {
         const data = { id, description: newDescription };
-        const response = await api.post("editTask", data);
+        await api.post("editTask", data);
         setShowInputDescription(true);
         handleClose();
       }
@@ -103,7 +103,6 @@ function TaskCard({ description, id }) {
           {!showInputDescription && (
             <TextField
               label="Descrição"
-              style={{ height: "1em" }}
               onChange={(e) => setNewDescription(e.target.value)}
               onKeyDown={(e) => handlePressDownEdit(e)}
               value={newDescription}
@@ -111,6 +110,7 @@ function TaskCard({ description, id }) {
                 margin: "10px",
                 width: "-webkit-fill-available",
                 color: "#fff",
+                height: "1em",
               }}
               variant="outlined"
             />
