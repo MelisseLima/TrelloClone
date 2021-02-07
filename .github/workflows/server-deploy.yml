@@ -1,0 +1,24 @@
+name: "Deploy TrelloClone on Heroku"
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'packages/frontend/**'
+      - 'packages/backend/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup node.jobs
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - name: Deploy
+        run: echo 'Deployed'
