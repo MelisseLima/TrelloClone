@@ -6,13 +6,14 @@ import "./style.css";
 
 function Header() {
   return (
-    <AppBar position="static" className="header" style={{}}>
+    <AppBar position="static" className="header">
       <Toolbar
         style={{
           width: "100%",
           marginLeft: "auto",
           marginRight: "auto",
-          display: "grid",
+          display: "block",
+          paddingTop : 10
         }}
         align="center"
       >
@@ -23,16 +24,6 @@ function Header() {
             color="inherit"
             aria-label="menu"
           ></IconButton>
-          <Button>
-            <AppsOutlined />
-          </Button>
-          <Button>
-            <HomeOutlined />
-          </Button>
-          <Button>
-            <Dashboard style={{ marginRight: "5px" }} />
-            Quadros
-          </Button>
         </div>
         <Button style={{ minWidth: "20px", maxWidth: "fit-content" }}>
           <Dashboard style={{ marginRight: "5px" }} />
