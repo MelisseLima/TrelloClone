@@ -1,0 +1,10 @@
+.container {
+  display: flex;
+}
+.list {
+  background-color: "#fff";
+  border-radius: 3px;
+  width: 20%;
+  min-width: 300px;
+  height: fit-content;
+}

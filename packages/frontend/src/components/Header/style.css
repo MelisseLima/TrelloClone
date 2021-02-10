@@ -1,0 +1,13 @@
+.header {
+  color: #fff !important;
+  background-color: rgba(0, 0, 0, 0.3) !important;
+}
+.toolbar {
+  width: "100%" !important;
+  margin-left: "auto" !important;
+  margin-right: "auto" !important;
+  display: "grid" !important;
+}
+header .MuiButton-root {
+  color: #fff !important;
+}
