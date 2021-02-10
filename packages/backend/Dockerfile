@@ -1,11 +1,9 @@
-FROM node:alpine 
+FROM node:13 
 
 WORKDIR /server
 
-COPY package*.json ./
-RUN npm install
-
 COPY . .
+RUN npm install
 
 EXPOSE 3333
 
