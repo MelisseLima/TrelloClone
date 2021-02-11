@@ -19,7 +19,7 @@ jobs:
         env: 
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           working-directory: ${{ secrets.BACKEND }}
-        run: sudo docker build -t apitrelloclone .
+        run: sudo docker build -t apitrelloclone ./packages/backend
 
       - name: Setup node.jobs
         env: 
