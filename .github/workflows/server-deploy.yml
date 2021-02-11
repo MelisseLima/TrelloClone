@@ -30,27 +30,3 @@ on:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           working-directory: ${{ env.working-directory }}
         run: heroku container:release -a apitrelloclone web
-
-      env:
-        working-directory: ./packages/frontend
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      steps:
-      - uses: actions/checkout@v1
-
-      - name: Login to Heroku Container registry frontend
-        env: 
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          working-directory: ${{ env.working-directory }}
-        run: heroku container:login 
-
-      - name: Build and push frontend
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          working-directory: ${{ env.working-directory }}
-        run: heroku container:push -a apitrelloclone web
-
-      - name: Release backend
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          working-directory: ${{ env.working-directory }}
-        run: heroku container:release -a apitrelloclone web
