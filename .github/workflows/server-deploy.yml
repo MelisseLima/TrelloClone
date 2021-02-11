@@ -1,4 +1,4 @@
-name: "Deploy TrelloClone on Heroku"
+name: "Deploy Backend TrelloClone on Heroku"
 
 on:
   push:
