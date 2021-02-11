@@ -22,11 +22,9 @@ jobs:
         env: 
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         uses: docker/build-push-action@v2
-        with:
-          context: packages/backend
-          file: ./Dockerfile
-          push: true
-          tags: apitrelloclone
+        working-directory: packages/backend
+        run: sudo docker build -t trelloClone .
+
 
       - name: Setup node.jobs
         env: 
