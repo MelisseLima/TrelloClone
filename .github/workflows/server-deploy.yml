@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - master
-    paths:
-      - 'packages/frontend/**'
-      - 'packages/backend/**'
 
 jobs:
   deploy:
