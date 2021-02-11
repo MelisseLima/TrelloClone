@@ -13,14 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Login to Heroku Container registry backend
-        uses: actions/checkout@v2
         env: 
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           working-directory: ${{ secrets.BACKEND }}
         run: heroku container:login 
 
       - name: Setup node.jobs
-        uses: actions/checkout@v2
         env: 
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           working-directory: ${{ secrets.BACKEND }}
