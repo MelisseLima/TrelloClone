@@ -10,13 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: scripts
+        working-directory: packages/backend
+      env: 
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
     steps:
       - name: Login to Heroku Container registry backend
-        env: 
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:login 
-
+        
       - name: Build docker image
         env: 
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
