@@ -4,21 +4,53 @@ on:
   push:
     branches:
       - master
-    paths:
-      - 'packages/frontend/**'
-      - 'packages/backend/**'
+  jobs:
+    build:
+      runs-on: ubuntu-latest
+      env:
+        working-directory: ./packages/backend
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      steps:
+      - uses: actions/checkout@v1
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: Login to Heroku Container registry backend
+        env: 
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          working-directory: ${{ env.working-directory }}
+        run: heroku container:login 
 
-      - name: Setup node.jobs
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14.x
+      - name: Build and push backend
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          working-directory: ${{ env.working-directory }}
+        run: heroku container:push -a apitrelloclone web
 
-      - name: Deploy
-        run: echo 'Deployed'
+      - name: Release backend
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          working-directory: ${{ env.working-directory }}
+        run: heroku container:release -a apitrelloclone web
+
+      env:
+        working-directory: ./packages/frontend
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      steps:
+      - uses: actions/checkout@v1
+
+      - name: Login to Heroku Container registry frontend
+        env: 
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          working-directory: ${{ env.working-directory }}
+        run: heroku container:login 
+
+      - name: Build and push frontend
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          working-directory: ${{ env.working-directory }}
+        run: heroku container:push -a apitrelloclone web
+
+      - name: Release backend
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          working-directory: ${{ env.working-directory }}
+        run: heroku container:release -a apitrelloclone web

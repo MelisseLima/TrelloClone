@@ -1,10 +1,10 @@
-FROM node:13 
+FROM node:alpine 
 
-WORKDIR /server
+WORKDIR /usr/app
 
 COPY . .
 RUN npm install
 
-EXPOSE 3333
+EXPOSE $PORT
 
-CMD NODE_URLS=http://*:$PORT npm start
+CMD npm start

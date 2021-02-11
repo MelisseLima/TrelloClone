@@ -17,6 +17,6 @@ COPY --from=build /app/build /usr/share/nginx/html
 
 # new
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE $PORT
+EXPOSE $REACT_APP_PORT
 
-CMD sed -i -e 's/$PORT/'"$PORT"'/g' /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'
+CMD sed -i -e 's/$REACT_APP_PORT/'"$REACT_APP_PORT"'/g' /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'
