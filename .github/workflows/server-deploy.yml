@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  deploy:
+  backend-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,15 +20,15 @@ jobs:
 
       - name: Build docker image
         working-directory: packages/backend
-        run: sudo docker build -t apitrelloclone .
+        run: sudo docker build -t apitrelloclone ./packages/backend
 
-      - name: Push container
+      - name: Push container to docker registry heroku
         working-directory: packages/backend
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:push -a apitrelloclone web
       
-      - name: Release backend
+      - name: Release backend in Heroku
         working-directory: packages/backend
         env: 
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
