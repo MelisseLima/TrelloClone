@@ -16,10 +16,12 @@ jobs:
         run: heroku container:login 
 
       - name: Build docker image
-        env: 
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          working-directory: ${{ secrets.BACKEND }}
-        run: sudo docker build -t apitrelloclone ./packages/backend
+        uses: docker/build-push-action@v2
+        with:
+          context: ./packages/backend
+          file: ./Dockerfile
+          push: false
+          tags: apitrelloclone
 
       - name: Setup node.jobs
         env: 
