@@ -6,29 +6,29 @@ on:
       - master
 
 jobs:
-  backend-deploy:
+  frontend-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v2
         
-      - name: Login to Heroku Container registry backend
+      - name: Login to Heroku Container registry frontend
         env: 
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:login 
 
       - name: Build docker image
-        working-directory: packages/backend
-        run: sudo docker build -t apitrelloclone .
+        working-directory: packages/frontend
+        run: sudo docker build -t trelloclone-frontend .
 
       - name: Push container to docker registry heroku
-        working-directory: packages/backend
+        working-directory: packages/frontend
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:push -a apitrelloclone web
+        run: heroku container:push -a trelloclone-frontend web
       
-      - name: Release backend in Heroku
-        working-directory: packages/backend
+      - name: Release frontend in Heroku
+        working-directory: packages/frontend
         env: 
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release -a apitrelloclone web
+        run: heroku container:release -a trelloclone-frontend web
