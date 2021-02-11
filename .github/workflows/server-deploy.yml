@@ -20,7 +20,7 @@ jobs:
 
       - name: Build docker image
         working-directory: packages/backend
-        run: sudo docker build -t apitrelloclone ./packages/backend
+        run: sudo docker build -t apitrelloclone packages/backend
 
       - name: Push container to docker registry heroku
         working-directory: packages/backend
