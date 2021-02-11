@@ -21,7 +21,6 @@ jobs:
       - name: Build docker image
         env: 
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        uses: docker/build-push-action@v2
         working-directory: packages/backend
         run: sudo docker build -t trelloClone .
 
