@@ -8,8 +8,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    run: 
-      working-directory: packages/backend
+    defaults:
+      run:
+        working-directory: scripts
     steps:
       - name: Login to Heroku Container registry backend
         env: 
