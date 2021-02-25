@@ -16,7 +16,6 @@ function Header() {
         }}
         align="center"
       >
-        Change of comman
         <Button style={{ minWidth: "20px", maxWidth: "fit-content", padding: '20px' }}>
           <Dashboard style={{ marginRight: "5px" }} />
           <strong>TrelloClone</strong>
