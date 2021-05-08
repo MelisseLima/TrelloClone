@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { Button, Card, TextField, Typography } from "@material-ui/core";
+import { Add } from "@material-ui/icons";
+import React, { useEffect, useState } from "react";
 import api from "../../services/api";
 import { CardList } from "../CardList/index";
-
-import { Card, Typography, TextField, Button } from "@material-ui/core";
-import { Add } from "@material-ui/icons";
-
 import "./style.css";
 
 function Board() {
@@ -15,7 +13,7 @@ function Board() {
 
   useEffect(() => {
     async function loadLists() {
-      const response = await api.get(`/`, {});
+      const response = await api.get(`/list`, {});
 
       setLists(response.data);
       setNewInsertion(false);

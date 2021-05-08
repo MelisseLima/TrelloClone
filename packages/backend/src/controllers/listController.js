@@ -2,20 +2,22 @@ const connection = require("../database/connection");
 const listSchema = require("../models/list");
 const generatedID = require("../utils/generatedID");
 
-module.exports = {
+module.exports = class ListContoller {
   /*
     Retrive all lists page by page
   */
 
-  async index(request, response) {
+  static async index(request, response) {
     try {
       const lists = await connection("list").select(["list.*"]);
 
       return response.json(lists);
-    } catch (error) {}
-  },
+    } catch (error) {
+      return response.status(500);
+    }
+  }
 
-  async editList(request, response) {
+  static async editList(request, response) {
     try {
       const { id, label } = request.body;
 
@@ -26,10 +28,12 @@ module.exports = {
         .update("label", label);
 
       return response.json({ list });
-    } catch (e) {}
-  },
+    } catch (e) {
+      return response.status(500);
+    }
+  }
 
-  async removeList(request, response) {
+  static async removeList(request, response) {
     try {
       const { id } = request.body;
 
@@ -40,15 +44,17 @@ module.exports = {
         .del();
 
       return response.status(200).send();
-    } catch (e) {}
-  },
+    } catch (e) {
+      return response.status(500);
+    }
+  }
 
-  async store(request, response) {
+  static async store(request, response) {
     try {
       const { label } = request.body;
-      let id = generatedID(5).toString();
+      const id = generatedID(5).toString();
       const [count] = await connection("list").count();
-      let index = count.count;
+      const index = count.count;
 
       const result = listSchema.validate({ id, label, index });
       const { error } = result;
@@ -73,6 +79,8 @@ module.exports = {
           index,
         },
       });
-    } catch (e) {}
-  },
+    } catch (e) {
+      return response.status(500);
+    }
+  }
 };

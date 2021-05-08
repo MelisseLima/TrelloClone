@@ -3,12 +3,12 @@ const connection = require("../database/connection");
 const taskSchema = require("../models/task");
 const generatedID = require("../utils/generatedID");
 
-module.exports = {
+module.exports = class TaskController {
   /*
     Retrive all tasks from list by id page by page
   */
 
-  async index(request, response) {
+  static async index(request, response) {
     try {
       const { list_id } = request.query;
 
@@ -18,10 +18,10 @@ module.exports = {
 
       return response.json(tasks);
     } catch (error) {}
-  },
+  }
 
   /* Store data at the database on MongoDb */
-  async store(request, response) {
+  static async store(request, response) {
     try {
       const { description, list_id } = request.body;
       let id = generatedID(5).toString();
@@ -60,9 +60,9 @@ module.exports = {
         },
       });
     } catch (error) {}
-  },
+  }
 
-  async removeTask(request, response) {
+  static async removeTask(request, response) {
     try {
       const { id } = request.body;
 
@@ -74,9 +74,9 @@ module.exports = {
 
       return response.status(200).send();
     } catch (e) {}
-  },
+  }
 
-  async editTask(request, response) {
+  static async editTask(request, response) {
     try {
       const { id, description } = request.body;
 
@@ -88,5 +88,5 @@ module.exports = {
 
       return response.json({ task });
     } catch (e) {}
-  },
+  }
 };
