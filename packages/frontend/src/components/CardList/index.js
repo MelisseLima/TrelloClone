@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import api from "../../services/api";
 import {
+  Button,
   Card,
   CardContent,
-  Typography,
-  Button,
   TextField,
+  Typography
 } from "@material-ui/core";
-import { Edit, Delete, Add } from "@material-ui/icons";
+import { Add, Delete, Edit } from "@material-ui/icons";
+import React, { useEffect, useState } from "react";
+import { toast } from 'react-toastify';
+import api from "../../services/api";
 import TaskCard from "../TaskCard/index";
-
 import "./styles.css";
 
 function CardList({ label, id }) {
@@ -41,7 +41,9 @@ function CardList({ label, id }) {
         setNewInsertion(true);
       }
     } catch (err) {
-      alert("Error ao criar tarefa, tente novamente.");
+      toast.error("Error ao criar tarefa, tente novamente.", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
     }
   };
 
@@ -54,7 +56,9 @@ function CardList({ label, id }) {
       }
     } catch (err) {
       setLabel(label);
-      alert(err);
+      toast.error(err.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
     }
   };
 
@@ -64,7 +68,9 @@ function CardList({ label, id }) {
       await api.post("lists", data);
       setStillExist(false);
     } catch (err) {
-      alert("Error deleting list. Please, try again...");
+      toast.error("Error deleting list. Please, try again..."), {
+        position: toast.POSITION.TOP_RIGHT,
+      });
     }
   }
 

@@ -1,14 +1,14 @@
-import React, { useState } from "react";
 import {
-  Card,
-  Typography,
   Button,
+  Card,
   Menu,
   MenuItem,
   TextField,
+  Typography,
 } from "@material-ui/core";
 import { MoreHoriz } from "@material-ui/icons";
-
+import React, { useState } from "react";
+import { toast } from "react-toastify";
 import api from "../../services/api";
 
 function TaskCard({ description, id }) {
@@ -31,7 +31,9 @@ function TaskCard({ description, id }) {
       await api.post("tasks", data);
       setStillExist(false);
     } catch (err) {
-      alert("Error ao deletar por favor tente novamente.");
+      toast.error("Error ao deletar por favor tente novamente.", {
+        position: toast.POSITION.TOP_LEFT,
+      });
     }
   }
 
@@ -44,7 +46,9 @@ function TaskCard({ description, id }) {
         handleClose();
       }
     } catch (err) {
-      alert(err);
+      toast.error(err.message, {
+        position: toast.POSITION.TOP_LEFT,
+      });
     }
   }
 

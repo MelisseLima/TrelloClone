@@ -1,6 +1,7 @@
 import { Button, Card, TextField, Typography } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import api from "../../services/api";
 import { CardList } from "../CardList/index";
 import "./style.css";
@@ -30,7 +31,9 @@ function Board() {
         await api.post("list", data);
         setNewInsertion(true);
       } catch (err) {
-        alert("Error ao criar lista, tente novamente.");
+        toast.error("Error ao criar lista, tente novamente.", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
       }
 
       setNewInsertionLabel("");
