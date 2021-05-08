@@ -14,7 +14,7 @@ function Board() {
 
   useEffect(() => {
     async function loadLists() {
-      const response = await api.get(`/list`, {});
+      const response = await api.get(`/lists`, {});
 
       setLists(response.data);
       setNewInsertion(false);

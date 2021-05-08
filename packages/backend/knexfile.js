@@ -2,50 +2,50 @@
 
 module.exports = {
   development: {
-    client: "pg",
+    client: 'pg',
     connection: process.env.DATABASE_URL,
     pool: {
       min: 2,
       max: 10,
     },
     migrations: {
-      directory: "./src/database/migrations",
+      directory: './src/database/migrations',
     },
   },
 
   test: {
-    client: "pg",
+    client: 'pg',
     connection: process.env.DATABASE_URL,
     pool: {
       min: 2,
       max: 10,
     },
     migrations: {
-      directory: "./src/database/migrations",
+      directory: './src/database/migrations',
     },
   },
 
   staging: {
-    client: "pg",
+    client: 'pg',
     connection: process.env.DATABASE_URL,
     pool: {
       min: 2,
       max: 10,
     },
     migrations: {
-      directory: "./src/database/migrations",
+      directory: './src/database/migrations',
     },
   },
 
   production: {
-    client: "pg",
+    client: 'pg',
     connection: process.env.DATABASE_URL,
     pool: {
       min: 2,
       max: 10,
     },
     migrations: {
-      directory: "./src/database/migrations",
+      directory: './src/database/migrations',
     },
   },
 };
