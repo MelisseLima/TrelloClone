@@ -3,11 +3,11 @@ import {
   Card,
   CardContent,
   TextField,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import { Add, Delete, Edit } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import api from "../../services/api";
 import TaskCard from "../TaskCard/index";
 import "./styles.css";
@@ -68,7 +68,7 @@ function CardList({ label, id }) {
       await api.post("lists", data);
       setStillExist(false);
     } catch (err) {
-      toast.error("Error deleting list. Please, try again..."), {
+      toast.error("Error deleting list. Please, try again...", {
         position: toast.POSITION.TOP_RIGHT,
       });
     }
