@@ -49,12 +49,11 @@ module.exports = class AuthService {
       );
 
       if (updateToken[1].rowCount === 0) {
-        throw new Error("Sessão não encontrada");
-      } else {
-        return { message: "Usuário deslogado com sucesso.", code: 200 };
+        return { message: "Sessão não encontrada", code: 401 };
       }
+      return { message: "Usuário deslogado com sucesso.", code: 401 };
     } catch (error) {
-      return { message: error.message, code: 500 };
+      return { message: error.message, code: 401 };
     }
   }
 

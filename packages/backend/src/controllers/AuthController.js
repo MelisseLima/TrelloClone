@@ -12,10 +12,14 @@ module.exports = class AuthController {
   }
 
   static async logout(req, res) {
-    const token = req.headers.authorization.split("Bearer ").join("");
+    try {
+      const token = req.headers.authorization.split("Bearer ").join("");
 
-    const logout = await AuthService.logout(token);
-    return res.status(logout.code).send(logout.message);
+      const logout = await AuthService.logout(token);
+      return res.status(logout.code).send(logout.message);
+    } catch (error) {
+      return res.status(401).send({ message: error.message });
+    }
   }
 
   static async verify(req, res) {
