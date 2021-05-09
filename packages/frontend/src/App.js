@@ -1,17 +1,23 @@
 import React from "react";
+import { Route } from "react-router-dom";
 import "./App.css";
-import Board from "./components/Board";
-import Header from "./components/Header";
+import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function App() {
   return (
     <div className="App" style={{ height: "100%" }}>
-      <Header />
-      <main style={{ height: "100%" }}>
-        <Board styles={{ width: "100%" }} />
-      </main>
+      <Route exact path="/">
+        <Login />
+      </Route>
+      <Route exact path="/register">
+        <Register />
+      </Route>
+      <Route exact path="/home">
+        <Dashboard />
+      </Route>
     </div>
   );
 }
-
 export default App;
