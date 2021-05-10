@@ -45,6 +45,7 @@ function Header() {
       },
     });
     handleClose();
+    window.location.href = "/";
   }
 
   return (
@@ -101,7 +102,7 @@ function Header() {
                         id="menu-list-grow"
                         onKeyDown={handleListKeyDown}
                       >
-                        <MenuItem onClick={logout}>Logout</MenuItem>
+                        <MenuItem onClick={() => logout()}>Logout</MenuItem>
                       </MenuList>
                     </ClickAwayListener>
                   </Paper>

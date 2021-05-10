@@ -1,4 +1,4 @@
-import { Button, Card, TextField } from "@material-ui/core";
+import { Button, Card, CircularProgress, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../services/api";
@@ -8,14 +8,18 @@ function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function login() {
+    setLoading(true);
     const response = await api.post(`/register`, {
       username,
       password,
       name,
       email,
     });
+    setLoading(false);
+    window.location.href = "/";
   }
 
   return (
@@ -71,7 +75,13 @@ function Register() {
           color="primary"
           onClick={login}
         >
-          Entrar
+          {!loading ? (
+            "Sign Up"
+          ) : (
+            <CircularProgress
+              style={{ color: "#fff", width: 20, height: 20 }}
+            />
+          )}
         </Button>
       </div>
     </Card>
