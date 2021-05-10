@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+}
+.list {
+  border-radius: 5px;
+  width: 20%;
+  min-width: 300px;
+  height: fit-content;
+  background: rgba(255, 255, 255, 0.5);
+  height: 75vh;
+  margin-left: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+  text-align: left;
+  display: flex;
+}
+.header-project{
+  color: #fff;
+  text-align: left;
+  padding-left: 20px;
+  padding-right: 20px;
+}

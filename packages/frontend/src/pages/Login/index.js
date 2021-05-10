@@ -1,4 +1,4 @@
-import { Button, Card, TextField } from "@material-ui/core";
+import { Button, Card, CircularProgress, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../services/api";
@@ -6,11 +6,14 @@ import api from "../../services/api";
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function login() {
+    setLoading(true);
     const response = await api.post(`/login`, { username, password });
     sessionStorage.setItem("jwt", response.data.token);
     sessionStorage.setItem("user", JSON.stringify(response.data.user));
+    setLoading(false);
     window.location.href = "/home";
   }
 
@@ -49,7 +52,13 @@ function Login() {
           color="primary"
           onClick={login}
         >
-          Entrar
+          {!loading ? (
+            "Entrar"
+          ) : (
+            <CircularProgress
+              style={{ color: "#fff", width: 20, height: 20 }}
+            />
+          )}
         </Button>
       </div>
     </Card>

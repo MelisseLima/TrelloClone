@@ -26,6 +26,16 @@ module.exports = class AuthService {
     return token;
   }
 
+  static async getTokenData(token) {
+    try {
+      const parsed = token.split("Bearer ").join("");
+      const decoded = jwt.verify(parsed, "authenticatejwt0123");
+      return decoded;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   static async isTokenValid(token) {
     try {
       const tokenInfo = await db.sequelize.query(

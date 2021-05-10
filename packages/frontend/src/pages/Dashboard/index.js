@@ -1,24 +1,68 @@
+import { Button, Card, CircularProgress, Grid } from "@material-ui/core";
+import Add from "@material-ui/icons/Add";
 import React, { useEffect, useState } from "react";
-import Board from "./../../components/Board";
+import api from "../../services/api";
 import Header from "./../../components/Header";
+import CreateProject from "./../../dialogs/CreateProject";
+import "./style.css";
 
 function Dashboard() {
-  const [user, setUser] = useState({});
-  const [token, setToken] = useState("");
+  const [boards, setBoards] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [openAddBoard, setOpenAddBoard] = useState(false);
 
   useEffect(() => {
-    const token = sessionStorage.getItem("jwt");
-    const user = JSON.parse(sessionStorage.getItem("user"));
-
-    if (sessionStorage.getItem("jwt")) {
-      setToken(token);
-      setUser(user);
+    async function getBoards() {
+      setLoading(true);
+      const response = await api.get(`/boards`, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+        },
+      });
+      setBoards(response.data.data);
+      setLoading(false);
     }
+    getBoards();
   }, []);
+
+  function goBoard(id) {
+    window.location.href = `/board/${id}`;
+    console.log(id);
+  }
+
   return (
     <>
       <Header />
-      <Board />
+      <div style={{ margin: 40 }}>
+        <div className="header-boards">
+          <h2>Meus Projetos</h2>
+          <Button onClick={() => setOpenAddBoard(true)}>
+            <Add />
+            Criar novo projeto
+          </Button>
+        </div>
+        <Grid container>
+          {loading && <CircularProgress />}
+          {!loading &&
+            boards.map((item) => {
+              return (
+                <Card
+                  className={"card-board"}
+                  onClick={() => {
+                    goBoard(item.id);
+                  }}
+                >
+                  <h3>{item.name}</h3>
+                  <p>{item.description || ""}</p>
+                </Card>
+              );
+            })}
+        </Grid>
+      </div>
+      <CreateProject
+        open={openAddBoard}
+        handleClose={() => setOpenAddBoard(false)}
+      />
     </>
   );
 }
