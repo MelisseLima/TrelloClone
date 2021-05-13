@@ -1,14 +1,17 @@
-import { Fab } from "@material-ui/core";
-import { Add } from "@material-ui/icons";
+import { Button } from "@material-ui/core";
+import { Add, Create, PlaylistAdd } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
 import CreateList from "../../dialogs/CreateList";
+import TaskCard from "../../dialogs/TaskCard";
 import api from "../../services/api";
+import CardList from "./../CardList";
 import "./style.css";
 
 function ProjectViewer({ id }) {
   const [board, setBoard] = useState({});
   const [lists, setLists] = useState([]);
   const [openCreateList, setOpenCreateList] = useState(false);
+  const [openTask, setOpenTask] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -30,32 +33,54 @@ function ProjectViewer({ id }) {
           textAlign: "left",
           paddingLeft: 20,
           paddingRight: 20,
+          display: "flex",
+          justifyContent: "space-between",
         }}
       >
-        <h2>{board.name}</h2>
+        <div
+          style={{
+            display: "flex",
+          }}
+        >
+          <h2>{board.name}</h2>
+          <Button>
+            <Create />
+          </Button>
+        </div>
+
+        <div style={{ display: "flex" }}>
+          <Button onClick={() => setOpenTask(true)}>
+            <PlaylistAdd />
+            Criar tarefa
+          </Button>
+          <Button onClick={() => setOpenCreateList(true)}>
+            <Add />
+            Criar coluna
+          </Button>
+        </div>
       </div>
-      <div style={{ display: "flex" }}>
+      <div
+        style={{
+          display: "flex",
+          overflowX: "scroll",
+          marginLeft: 10,
+        }}
+      >
         {!loading &&
           lists.map((item) => {
-            return (
-              <div className={"list"}>
-                <h4>{item.label}</h4>
-              </div>
-            );
+            return <CardList item={item} />;
           })}
       </div>
-      <Fab
-        style={{ position: "absolute", right: 10, bottom: 10 }}
-        color="primary"
-        onClick={() => setOpenCreateList(true)}
-      >
-        <Add />
-      </Fab>
+
       <CreateList
         open={openCreateList}
         handleClose={() => setOpenCreateList(false)}
         board_id={board.id}
+        addList={(item) => {
+          setLists((oldLists) => [...oldLists, item]);
+        }}
       />
+      <TaskCard open={openTask} handleClose={() => setOpenTask(false)} />
     </div>
   );
 }

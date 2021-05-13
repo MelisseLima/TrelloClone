@@ -2,29 +2,25 @@ import { Button, CircularProgress, Dialog, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import api from "../../services/api";
 
-function CreateProject({ open, handleClose, addProject }) {
+function CardTask({ open, handleClose, board_id }) {
   const [loading, setLoading] = useState(false);
-  const [name, setName] = useState("");
+  const [label, setLabel] = useState("");
   const [description, setDescription] = useState("");
 
-  async function createBoard() {
+  async function CardTask() {
     setLoading(true);
-    const response = await api
-      .post(
-        `/board`,
-        {
-          name: name,
-          description: description,
+    const response = await api.post(
+      `/list`,
+      {
+        label: label,
+        board_id: board_id,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
-          },
-        }
-      )
-      .then((response) => {
-        addProject(response.data.data[0]);
-      });
+      }
+    );
     setLoading(false);
     handleClose();
   }
@@ -40,26 +36,31 @@ function CreateProject({ open, handleClose, addProject }) {
           display: "grid",
         }}
       >
-        <h2>Criar Projeto</h2>
+        <h2>Adicionar tarefa</h2>
         <TextField
-          label="Name"
+          label="Titulo"
           variant="outlined"
-          value={name}
+          value={label}
           onChange={(e) => {
-            setName(e.target.value);
+            setLabel(e.target.value);
           }}
         />
         <TextField
-          label="Description"
+          label="Descrição"
+          variant="outlined"
           multiline
-          rows={2}
-          variant="outlined"
-          value={description}
+          rows={3}
+          value={label}
           onChange={(e) => {
-            setDescription(e.target.value);
+            setLabel(e.target.value);
           }}
         />
-        <Button variant="contained" color="primary" onClick={createBoard}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={CardTask}
+          style={{ height: "fit-content" }}
+        >
           {!loading ? (
             "Criar"
           ) : (
@@ -73,4 +74,4 @@ function CreateProject({ open, handleClose, addProject }) {
   );
 }
 
-export default CreateProject;
+export default CardTask;

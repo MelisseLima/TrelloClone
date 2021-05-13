@@ -33,7 +33,7 @@ function Dashboard() {
   return (
     <>
       <Header />
-      <div style={{ margin: 40 }}>
+      <div style={{ marginLeft: 40, marginRight: 40 }}>
         <div className="header-boards">
           <h2>Meus Projetos</h2>
           <Button onClick={() => setOpenAddBoard(true)}>
@@ -62,6 +62,7 @@ function Dashboard() {
       <CreateProject
         open={openAddBoard}
         handleClose={() => setOpenAddBoard(false)}
+        addProject={(item) => setBoards((oldBoards) => [...oldBoards, item])}
       />
     </>
   );

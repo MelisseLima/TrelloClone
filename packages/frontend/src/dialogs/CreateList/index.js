@@ -2,24 +2,29 @@ import { Button, CircularProgress, Dialog, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import api from "../../services/api";
 
-function CreateList({ open, handleClose, board_id }) {
+function CreateList({ open, handleClose, board_id, addList }) {
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
 
   async function createList() {
     setLoading(true);
-    const response = await api.post(
-      `/list`,
-      {
-        name: name,
-        board_id: board_id,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+    const response = await api
+      .post(
+        `/list`,
+        {
+          name: name,
+          board_id: board_id,
         },
-      }
-    );
+        {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+          },
+        }
+      )
+      .then((response) => {
+        const list = response.data.data[0];
+        addList(list);
+      });
     setLoading(false);
     handleClose();
   }
