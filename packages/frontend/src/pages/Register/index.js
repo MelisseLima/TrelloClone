@@ -1,4 +1,5 @@
 import { Button, Card, CircularProgress, TextField } from "@material-ui/core";
+import { useSnackbar } from "notistack";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../services/api";
@@ -9,17 +10,42 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   async function login() {
     setLoading(true);
-    const response = await api.post(`/register`, {
-      username,
-      password,
-      name,
-      email,
-    });
+    await api
+      .post(`/register`, {
+        username,
+        password,
+        name,
+        email,
+      })
+      .then(() => {
+        enqueueSnackbar("Conta criada com sucesso, prossiga para o login.", {
+          variant: "success",
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "right",
+          },
+        });
+
+        window.location.href = "/";
+      })
+      .catch((e) => {
+        enqueueSnackbar(
+          "Não foi possivel criar a conta verifique os dados e tente novamente.",
+          {
+            variant: "error",
+            anchorOrigin: {
+              vertical: "top",
+              horizontal: "right",
+            },
+          }
+        );
+      });
+
     setLoading(false);
-    window.location.href = "/";
   }
 
   return (
