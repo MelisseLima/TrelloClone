@@ -1,5 +1,5 @@
-const AuthService = require("../services/AuthService");
-const UserService = require("../services/UserService");
+const AuthService = require('../services/AuthService');
+const UserService = require('../services/UserService');
 
 module.exports = class AuthController {
   /*
@@ -8,12 +8,12 @@ module.exports = class AuthController {
   static index(req, res) {
     return res
       .status(200)
-      .send({ now: new Date().toISOString(), version: "1.0.0" });
+      .send({ now: new Date().toISOString(), version: '1.0.0' });
   }
 
   static async logout(req, res) {
     try {
-      const token = req.headers.authorization.split("Bearer ").join("");
+      const token = req.headers.authorization.split('Bearer ').join('');
 
       const logout = await AuthService.logout(token);
       return res.status(logout.code).send(logout.message);

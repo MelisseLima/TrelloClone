@@ -8,15 +8,15 @@ import {
   Paper,
   Popper,
   Toolbar,
-} from "@material-ui/core";
-import { AccountCircle, Dashboard, Home } from "@material-ui/icons";
-import React, { useRef, useState } from "react";
-import api from "../../services/api";
-import "./style.css";
+} from '@material-ui/core';
+import { AccountCircle, Dashboard, Home } from '@material-ui/icons';
+import React, { useRef, useState } from 'react';
+import api from '../../services/api';
+import './style.css';
 
 function Header() {
-  const user = JSON.parse(sessionStorage.getItem("user"));
-  const token = sessionStorage.getItem("jwt");
+  const user = JSON.parse(sessionStorage.getItem('user'));
+  const token = sessionStorage.getItem('jwt');
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
 
@@ -32,31 +32,27 @@ function Header() {
   };
 
   function handleListKeyDown(event) {
-    if (event.key === "Tab") {
+    if (event.key === 'Tab') {
       event.preventDefault();
       setOpen(false);
     }
   }
 
   async function logout() {
-    const response = await api.put(`/logout`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await api.put(`/logout`);
     handleClose();
-    window.location.href = "/";
+    window.location.href = '/';
   }
 
   return (
     <AppBar position="static" className="header">
       <Toolbar
         style={{
-          width: "100%",
-          marginLeft: "auto",
-          marginRight: "auto",
-          display: "flex",
-          justifyContent: "space-between",
+          width: '100%',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          display: 'flex',
+          justifyContent: 'space-between',
         }}
         align="center"
       >
@@ -64,16 +60,16 @@ function Header() {
           <Home />
         </Button>
         <Button
-          style={{ minWidth: "20px", maxWidth: "fit-content", padding: "20px" }}
+          style={{ minWidth: '20px', maxWidth: 'fit-content', padding: '20px' }}
         >
-          <Dashboard style={{ marginRight: "5px" }} />
+          <Dashboard style={{ marginRight: '5px' }} />
           <strong>TrelloClone</strong>
         </Button>
         <div>
           <Button>
             <Button
               ref={anchorRef}
-              aria-controls={open ? "menu-list-grow" : undefined}
+              aria-controls={open ? 'menu-list-grow' : undefined}
               aria-haspopup="true"
               onClick={handleToggle}
             >
@@ -92,7 +88,7 @@ function Header() {
                   {...TransitionProps}
                   style={{
                     transformOrigin:
-                      placement === "bottom" ? "center top" : "center bottom",
+                      placement === 'bottom' ? 'center top' : 'center bottom',
                   }}
                 >
                   <Paper>

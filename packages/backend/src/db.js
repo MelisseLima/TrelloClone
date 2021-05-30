@@ -1,12 +1,12 @@
-const fs = require("fs");
-const path = require("path");
-const Sequelize = require("sequelize");
-const pg = require("pg");
-const config = require("./config/database");
+const fs = require('fs');
+const path = require('path');
+const Sequelize = require('sequelize');
+const pg = require('pg');
+const config = require('./config/database');
 
-pg.types.setTypeParser(1082, "text", (text) => text);
-pg.types.setTypeParser(1184, "text", (text) => text);
-pg.types.setTypeParser(1114, "text", (text) => text);
+pg.types.setTypeParser(1082, 'text', (text) => text);
+pg.types.setTypeParser(1184, 'text', (text) => text);
+pg.types.setTypeParser(1114, 'text', (text) => text);
 
 const db = {};
 
@@ -27,9 +27,9 @@ const sequelize = new Sequelize({
 fs.readdirSync(__dirname)
   .filter(
     (file) =>
-      file.indexOf(".") !== 0 &&
+      file.indexOf('.') !== 0 &&
       file !== path.basename(__filename) &&
-      file.slice(-3) === ".js"
+      file.slice(-3) === '.js'
   )
   .forEach((file) => {
     const model = sequelize.import(path.join(__dirname, file));

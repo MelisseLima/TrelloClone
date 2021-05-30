@@ -1,7 +1,10 @@
-import axios from "axios";
+import axios from 'axios';
 
 const api = axios.create({
-  baseURL: "https://apitrelloclone.herokuapp.com",
+  baseURL: 'https://apitrelloclone.herokuapp.com',
+  headers: {
+    Authorization: `Bearer ${sessionStorage.getItem('jwt')}`,
+  },
 });
 
 export default api;

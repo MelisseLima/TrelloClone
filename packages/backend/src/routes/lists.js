@@ -1,8 +1,8 @@
-const { Router } = require("express");
-const BoardController = require("../controllers/BoardController");
+const { Router } = require('express');
+const BoardController = require('../controllers/BoardController');
 
 const routes = Router();
 
-routes.post("/list", BoardController.createList);
+routes.post('/list', BoardController.createList);
 
 module.exports = routes;
