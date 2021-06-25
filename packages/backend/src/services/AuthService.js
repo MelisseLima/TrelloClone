@@ -1,11 +1,11 @@
-const jwt = require("jsonwebtoken");
-const db = require("../db");
+const jwt = require('jsonwebtoken');
+const db = require('../db');
 
 module.exports = class AuthService {
   static async generateToken(username, email, id) {
     const expireDate = new Date(new Date().valueOf());
 
-    const token = jwt.sign({ username, email, id }, "authenticatejwt0123", {
+    const token = jwt.sign({ username, email, id }, 'authenticatejwt0123', {
       expiresIn: 3600 * 24,
     });
     await db.sequelize.query(
@@ -28,8 +28,8 @@ module.exports = class AuthService {
 
   static async getTokenData(token) {
     try {
-      const parsed = token.split("Bearer ").join("");
-      const decoded = jwt.verify(parsed, "authenticatejwt0123");
+      const parsed = token.split('Bearer ').join('');
+      const decoded = jwt.verify(parsed, 'authenticatejwt0123');
       return decoded;
     } catch (error) {
       console.log(error);
@@ -39,7 +39,7 @@ module.exports = class AuthService {
   static async isTokenValid(token) {
     try {
       const tokenInfo = await db.sequelize.query(
-        "SELECT * FROM users_tokens WHERE id = $1",
+        'SELECT * FROM users_tokens WHERE id = $1',
         { bind: [token] }
       );
       return tokenInfo[0];
@@ -59,9 +59,9 @@ module.exports = class AuthService {
       );
 
       if (updateToken[1].rowCount === 0) {
-        return { message: "Sessão não encontrada", code: 401 };
+        return { message: 'Sessão não encontrada', code: 401 };
       }
-      return { message: "Usuário deslogado com sucesso.", code: 401 };
+      return { message: 'Usuário deslogado com sucesso.', code: 200 };
     } catch (error) {
       return { message: error.message, code: 401 };
     }
@@ -91,7 +91,7 @@ module.exports = class AuthService {
       return {
         data: {
           message:
-            "Erro ao criar usuário verifique os dados e tente novamente.",
+            'Erro ao criar usuário verifique os dados e tente novamente.',
         },
         status: 500,
       };
