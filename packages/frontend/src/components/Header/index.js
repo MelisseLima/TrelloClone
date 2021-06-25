@@ -6,11 +6,15 @@ import './style.css';
 
 function Header() {
   const user = JSON.parse(sessionStorage.getItem('user'));
-  const token = sessionStorage.getItem('jwt');
 
   async function logout() {
-    const response = await api.put(`/logout`);
-    window.location.href = '/';
+    await api.put(`/logout`).then((resp) => {
+      window.location.href = '/';
+    });
+  }
+
+  async function home() {
+    window.location.href = '/home ';
   }
 
   return (
@@ -25,7 +29,7 @@ function Header() {
         }}
         align="center"
       >
-        <Button>
+        <Button onClick={() => home()}>
           <Home />
         </Button>
         <Button
@@ -38,7 +42,7 @@ function Header() {
           <div style={{ margin: 'auto', display: 'flex' }}>
             <AccountCircle />
             <span style={{ margin: 'auto', marginLeft: 10 }}>
-              {JSON.parse(sessionStorage.user).username}
+              {user.username}
             </span>
           </div>
 
