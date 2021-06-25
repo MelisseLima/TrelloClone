@@ -34,10 +34,14 @@ function Header() {
           <Dashboard style={{ marginRight: '5px' }} />
           <strong>TrelloClone</strong>
         </Button>
-        <div>
-          <Button>
-            <AccountCircle style={{ marginLeft: 10 }} />
-          </Button>
+        <div style={{ display: 'flex' }}>
+          <div style={{ margin: 'auto', display: 'flex' }}>
+            <AccountCircle />
+            <span style={{ margin: 'auto', marginLeft: 10 }}>
+              {JSON.parse(sessionStorage.user).username}
+            </span>
+          </div>
+
           <Button onClick={() => logout()}>
             <ExitToApp />
           </Button>
