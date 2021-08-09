@@ -62,6 +62,7 @@ jobs:
               
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
+        working-directory: packages/backend
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: brother-task-definition:1
@@ -70,6 +71,7 @@ jobs:
 
       
       - name: Deploy Amazon ECS task definition
+        working-directory: packages/backend
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
