@@ -12,8 +12,7 @@ env:
 
 on:
   push:
-    branches:
-      - master
+    default:
 
 jobs:
   deploy:
