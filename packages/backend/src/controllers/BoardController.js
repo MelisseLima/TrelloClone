@@ -27,6 +27,23 @@ module.exports = class BoardController {
     }
   }
 
+  static async newTask(req, res) {
+    try {
+      const auth = req.headers.authorization;
+      const { title, description, board_id } = req.body;
+      const task = await ListsService.store(name, board_id);
+      return res
+        .status(200)
+        .send({ data: list, message: "Coluna criada com sucesso" });
+    } catch (error) {
+      return res.status(500).send({
+        data: [],
+        message:
+          "Não foi possivel criar coluna agora tente novamente mais tarde.",
+      });
+    }
+  }
+
   static async createList(req, res) {
     try {
       const auth = req.headers.authorization;
