@@ -65,7 +65,7 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: packages/backend/task-definition.json
-          container-name: brother-api-ec
+          container-name: brother-api
           image: ${{ steps.build-image.outputs.image }}
 
       
