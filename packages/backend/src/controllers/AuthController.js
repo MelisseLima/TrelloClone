@@ -8,7 +8,7 @@ module.exports = class AuthController {
   static index(req, res) {
     return res
       .status(200)
-      .send({ now: new Date().toISOString(), version: '1.0.0', aws_update: true });
+      .send({ now: new Date().toISOString(), version: '1.0.0', aws_update: false });
   }
 
   static async logout(req, res) {
