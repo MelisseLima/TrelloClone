@@ -63,5 +63,6 @@ jobs:
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: brother-service
           cluster: brother-bet
           wait-for-service-stability: true
