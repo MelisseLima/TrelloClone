@@ -51,13 +51,13 @@ jobs:
         run: |
           
           # Build a docker container and
-          docker build -t $ECR_REGISTRY/brother-bet-api:$IMAGE_TAG .
+          docker build -t $ECR_REGISTRY/brother-bet-api:latest .
 
           # push it to ECR so that it can
-          docker push $ECR_REGISTRY/brother-bet-api:$IMAGE_TAG
+          docker push $ECR_REGISTRY/brother-bet-api:latest
 
           # be deployed to ECS.
-          echo "::set-output name=image::$ECR_REGISTRY/brother-bet-api:$IMAGE_TAG"
+          echo "::set-output name=image::$ECR_REGISTRY/brother-bet-api:latest"
 
               
       - name: Fill in the new image ID in the Amazon ECS task definition
