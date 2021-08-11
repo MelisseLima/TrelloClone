@@ -11,7 +11,7 @@ module.exports = class AuthController {
       .send({
         now: new Date().toISOString(),
         version: '1.0.0',
-        aws_update: true,
+        aws_update: false
       });
   }
 
