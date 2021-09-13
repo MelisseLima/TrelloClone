@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - 'packages/futsal-notify/**'
+      - 'packages/backend/**'
       - '.github/workflows/**'
 env:
   AWS_REGION: ${{secrets.AWS_REGION}}                   # set this to your preferred AWS region, e.g. us-west-1
@@ -17,7 +17,7 @@ env:
 defaults:
   run:
     shell: bash
-    working-directory: packages/futsal-notify
+    working-directory: packages/backend
 
 jobs:
   deploy:
@@ -32,7 +32,6 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Configure AWS credentials
-        working-directory: packages/futsal-notify
         uses: aws-actions/configure-aws-credentials@13d241b293754004c80624b5567555c4a39ffbe3
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -40,7 +39,6 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Login to Amazon ECR
-        working-directory: packages/futsal-notify
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@aaf69d68aa3fb14c1d5a6be9ac61fe15b48453a2
 
@@ -51,7 +49,7 @@ jobs:
 
 
       - name: Build, tag, and push image to Amazon ECR
-        working-directory: packages/futsal-notify
+        working-directory: packages/backend
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -66,7 +64,6 @@ jobs:
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
       - name: Fill in the new image ID in the Amazon ECS task definition
-        working-directory: packages/futsal-notify
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@97587c9d45a4930bf0e3da8dd2feb2a463cf4a3a
         with:
@@ -75,7 +72,6 @@ jobs:
           image: ${{ steps.build-image.outputs.image }}
 
       - name: Deploy Amazon ECS task definition
-        working-directory: packages/futsal-notify
         uses: aws-actions/amazon-ecs-deploy-task-definition@de0132cf8cdedb79975c6d42b77eb7ea193cf28e
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
