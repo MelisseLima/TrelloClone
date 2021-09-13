@@ -46,7 +46,8 @@ jobs:
         run: |
           aws ecs describe-task-definition --task-definition ${{ secrets.ECS_TASK_DEFINITION}} \
           --query taskDefinition > task-definition.json
-
+      - name: List files
+        run: ls -R
 
       - name: Build, tag, and push image to Amazon ECR
         working-directory: packages/backend
