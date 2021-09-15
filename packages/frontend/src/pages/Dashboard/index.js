@@ -1,10 +1,10 @@
-import { Button, Card, CircularProgress, Grid } from "@material-ui/core";
-import Add from "@material-ui/icons/Add";
-import React, { useEffect, useState } from "react";
-import api from "../../services/api";
-import Header from "./../../components/Header";
-import CreateProject from "./../../dialogs/CreateProject";
-import "./style.css";
+import { Button, CircularProgress, Grid } from '@material-ui/core';
+import Add from '@material-ui/icons/Add';
+import React, { useEffect, useState } from 'react';
+import api from '../../services/api';
+import Header from './../../components/Header';
+import CreateProject from './../../dialogs/CreateProject';
+import './style.css';
 
 function Dashboard() {
   const [boards, setBoards] = useState([]);
@@ -16,7 +16,7 @@ function Dashboard() {
       setLoading(true);
       const response = await api.get(`/boards`, {
         headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+          Authorization: `Bearer ${sessionStorage.getItem('jwt')}`,
         },
       });
       setBoards(response.data.data);
@@ -46,15 +46,20 @@ function Dashboard() {
           {!loading &&
             boards.map((item) => {
               return (
-                <Card
-                  className={"card-board"}
+                <div
+                  className={'card-board'}
                   onClick={() => {
                     goBoard(item.id);
                   }}
+                  style={{
+                    background: 'rgba(0,0,0,0.4)',
+                    borderRadius: '8px',
+                    color: 'white',
+                  }}
                 >
                   <h3>{item.name}</h3>
-                  <p>{item.description || ""}</p>
-                </Card>
+                  <p>{item.description || ''}</p>
+                </div>
               );
             })}
         </Grid>
