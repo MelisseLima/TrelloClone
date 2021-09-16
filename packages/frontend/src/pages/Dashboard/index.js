@@ -2,7 +2,7 @@ import { Button, CircularProgress, Grid } from '@material-ui/core';
 import Add from '@material-ui/icons/Add';
 import React, { useEffect, useState } from 'react';
 import api from '../../services/api';
-import Header from './../../components/Header';
+import Header from './../../components/Header/index';
 import CreateProject from './../../dialogs/CreateProject';
 import './style.css';
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import ProjectViewer from "../../components/ProjectViewer";
-import Header from "./../../components/Header";
+import ProjectViewer from "../../components/ProjectViewer/index";
+import Header from "./../../components/Header/index";
 
 function Board() {
   const { id } = useParams();
